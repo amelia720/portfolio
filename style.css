@@ -1,0 +1,83 @@
+body {
+  margin: 0;
+  font-family: sans-serif;
+  background: #fff;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 60px;
+  border-bottom: 1px solid #eee;
+  background-color: #ffffff;
+}
+
+.left .logo {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.dot {
+  color: red;
+  margin-left: 2px;
+  font-size: 40px;
+  font-weight: bold;
+}
+
+.center {
+  display: flex;
+  gap: 30px;
+}
+
+
+.center a {
+  position: relative;
+  text-decoration: none;
+  color: black;
+  font-weight: 500;
+  padding-bottom: 5px;
+}
+
+.center a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0%;
+  height: 2px;
+  background-color: #f39c12; /* underline color */
+  transition: width 0.3s ease;
+}
+
+.center a:hover::after {
+  width: 100%;
+}
+
+
+.right {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.moon-icon {
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+}
+
+.contact {
+  text-decoration: none;
+  border: 1px solid black;
+  padding: 5px 25px;
+  border-radius: 20px;
+  color: black;
+  background-color: #ffffff;
+  font-weight: 500;
+  font-size: 15px;
+}
