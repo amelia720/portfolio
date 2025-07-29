@@ -1,3 +1,4 @@
+/* General styles */
 body {
   margin: 0;
   font-family: sans-serif;
@@ -8,32 +9,37 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Header / Top Bar */
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 60px;
+  padding: 10px 120px;
   border-bottom: 1px solid #eee;
   background-color: #ffffff;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
 }
 
+/* Left logo */
 .left .logo {
-  font-size: 20px;
+  font-size: 24px;
   font-weight: bold;
 }
 
 .dot {
   color: red;
-  margin-left: 2px;
-  font-size: 40px;
+  margin-left: 4px;
+  font-size: 32px;
   font-weight: bold;
 }
 
+/* Center navigation */
 .center {
   display: flex;
   gap: 30px;
 }
-
 
 .center a {
   position: relative;
@@ -50,7 +56,7 @@ html {
   bottom: 0;
   width: 0%;
   height: 2px;
-  background-color: #f39c12; /* underline color */
+  background-color: #000000;
   transition: width 0.3s ease;
 }
 
@@ -58,7 +64,7 @@ html {
   width: 100%;
 }
 
-
+/* Right section of navbar */
 .right {
   display: flex;
   align-items: center;
@@ -80,4 +86,209 @@ html {
   background-color: #ffffff;
   font-weight: 500;
   font-size: 15px;
+}
+
+/* Sections */
+section {
+  min-height: 100vh;
+  padding: 100px 120px;
+}
+
+/* About section */
+.about {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #444;
+  font-weight: 500;
+  gap: 60px;
+  max-width: 1600px;
+  margin: 0 auto;
+}
+
+.about .text-content {
+  max-width: 100%;
+  min-width: 500px;
+}
+.headline {
+  white-space: nowrap;
+  font-size: 3.9rem;
+  font-weight: bold;
+  margin: 0 0 10px 0;
+  line-height: 1.1;
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 10px;
+}
+
+.greeting {
+  color: #333;
+}
+
+.about h1 {
+  font-size: 3.6rem;
+  font-weight: bold; ;
+  margin: 0 0 10px 0;
+  line-height: 1.1;
+}
+
+.about h3 {
+  font-size: 1.8rem;
+  margin-bottom: 10px;
+  color: #444;
+}
+
+.typing-text {
+  min-width: 280px;
+  white-space: nowrap; 
+  font-size: 3rem;
+  font-weight: 600;
+  margin: 20px 0;
+}
+
+#typed-text {
+  background: linear-gradient(90deg, #FF9A42 4%, #D64550 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: bold;
+}
+.cursor {
+  display: inline-block;
+  color: #FF5733;
+  animation: blink 0.7s steps(1) infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.about p {
+  font-size: 1.2rem;
+  line-height: 1.6;
+  margin-bottom: 30px;
+}
+.name {
+  background: linear-gradient(90deg, #FF9A42 4%, #D64550 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: bold;
+}
+
+/* Image */
+.image-wrapper {
+  display: flex;
+  justify-content: flex-end; 
+  padding-right: 100px;      
+  margin-top: -250px;       
+}
+
+
+.icon1 {
+  flex: 1;
+  max-width: 350px;
+  position: sticky;
+  align-self: flex-start;
+  display: flex;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.3s ease, filter 0.3s ease;
+  animation: float-circle 5s infinite linear;
+}
+
+@keyframes float-circle {
+  0% {
+    transform: translate(0, 0);
+  }
+  25% {
+    transform: translate(10px, -10px);
+  }
+  50% {
+    transform: translate(0, -20px);
+  }
+  75% {
+    transform: translate(-10px, -10px);
+  }
+  100% {
+    transform: translate(0, 0);
+  }
+}
+
+.icon1:hover {
+  transform: scale(1.05);
+  filter: drop-shadow(0 0 20px #ff5833b4);
+}
+
+.download-btn {
+  display: inline-block;
+  padding: 1rem 2.8rem;
+  border-radius: 8px;
+  border: none;
+  margin-top: 70px;
+  background: linear-gradient(90deg, #FF9A42 4%, #D64550 100%);
+  color: white;
+  font-size: 25px;
+  letter-spacing: 0.1rem;
+  font-weight: medium;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.download-btn:hover {
+  transform: scale(1.03);
+  box-shadow: 0 0 25px rgba(253, 99, 64, 0.555);
+}
+
+/* ---------------------- */
+/* Responsive Styles */
+/* ---------------------- */
+@media screen and (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 10px 20px;
+  }
+
+  .left,
+  .center,
+  .right {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin: 10px 0;
+  }
+
+  .center {
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .about {
+    padding: 60px 20px;
+    font-size: 14px;
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .about h1 {
+    font-size: 3rem;
+  }
+
+  .icon1 {
+    width: 80vw;
+    margin-top: 20px;
+  }
+
+  .contact {
+    padding: 5px 15px;
+    font-size: 14px;
+  }
+
+  section {
+    min-height: auto;
+    padding: 60px 20px;
+  }
 }
