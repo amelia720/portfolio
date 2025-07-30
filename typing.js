@@ -43,4 +43,12 @@ typedText.textContent = currentPhrase.substring(0, charIndex); // update the tex
   setTimeout(typeEffect, delay); // call the function again after the delay
 }
 
+const hamburger = document.querySelector('.hamburger');
+const navWrapper = document.querySelector('.nav-wrapper');
+
+hamburger.addEventListener('click', () => {
+  navWrapper.classList.toggle('active');
+});
+
+
 document.addEventListener("DOMContentLoaded", typeEffect); // start the typing effect when the DOM is fully loaded
