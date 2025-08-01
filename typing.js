@@ -47,8 +47,12 @@ const hamburger = document.querySelector('.hamburger');
 const navWrapper = document.querySelector('.nav-wrapper');
 
 hamburger.addEventListener('click', () => {
-  navWrapper.classList.toggle('active');
-});
+    navWrapper.classList.toggle('open');
+    document.body.style.overflow = navWrapper.classList.contains('open') ? 'hidden' : 'auto';
+  });
+  document.querySelector('.close-btn').addEventListener('click', () => {
+    document.querySelector('.nav-wrapper').classList.remove('open');
+  });  
 
 
 document.addEventListener("DOMContentLoaded", typeEffect); // start the typing effect when the DOM is fully loaded

@@ -38,9 +38,13 @@ html {
 
 /* Center navigation */
 .center {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
   display: flex;
   gap: 30px;
 }
+
 
 .center a {
   position: relative;
@@ -87,6 +91,11 @@ html {
   background-color: #ffffff;
   font-weight: 500;
   font-size: 15px;
+}
+
+.contact:hover {
+  background-color: #000000;
+  color: rgb(255, 255, 255);
 }
 
 /* Sections */
@@ -163,7 +172,8 @@ section {
   animation: blink 0.7s steps(1) infinite;
 }
 
-@keyframes blink {
+@keyframes blink  /* Cursor blinking animation */
+{
   0%, 100% { opacity: 1; }
   50% { opacity: 0; }
 }
@@ -247,10 +257,19 @@ section {
   cursor: pointer;
 }
 
+.close-btn
+{
+  display: none;
+}
+
 
 /* ---------------------- */
 /* Responsive Styles */
 /* ---------------------- */
+/* ---------------------- */
+/* Landscape Orientation Tweaks Only */
+/* ---------------------- */
+
 @media screen and (max-width: 768px) {
   html, body {
     width: 100%;
@@ -261,28 +280,34 @@ section {
     box-sizing: border-box;
   }
 
-  *, *::before, *::after {
+  *, *::before, *::after 
+  {
     box-sizing: inherit;
   }
 
   section {
-    padding: 20px 5px; /* Less padding than desktop */
-  }
-
+    padding: 80px 5%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }  
+  
   .header {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    justify-content: space-between;
     align-items: center;
     gap: 10px;
     padding: 5px 10px;
     text-align: center;
-    position: fixed; /* Changed from sticky to fixed */
+    position: fixed;
     top: 0;
-    width: 100%; /* Ensure it spans the full width */
+    width: 100%;
     z-index: 1000;
-    background-color: rgba(255, 255, 255, 0.8); /* Maintain background for visibility */
-    backdrop-filter: blur(8px); /* Optional: Add blur effect */
+    background-color: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px); 
   }
+  
 
   .center {
     flex-direction: column;
@@ -301,8 +326,8 @@ section {
 
   .about .text-content {
     font-size: 1.05rem;
+    max-width: 560px;
     width: 100%;
-    max-width: 100%;
     min-width: auto;
     padding: 0 15px;
   }
@@ -355,18 +380,78 @@ section {
     position: static;
   }
 
-  .nav-wrapper {
-    display: none;
-    flex-direction: column;
-    align-items: center;
-    gap: 15px;
-    width: 100%;
-  }
-  
-  .nav-wrapper.active {
-    display: flex;
-  }
-  
+/* Hide nav-wrapper on mobile by default */
+.nav-wrapper {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: -100%;
+  width: 100%; 
+  max-width: 250px; 
+  height: 100vh;
+  background-color: white;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+  z-index: 9999;
+  padding: 60px 20px 20px 20px; 
+  flex-direction: column;
+  gap: 25px;
+  transition: left 0.3s ease;
+  overflow-y: auto; 
+}
+
+
+.nav-wrapper.open {
+  left: 0;
+  display: flex;
+}
+
+.nav-wrapper .center {
+  flex-direction: column;
+  gap: 20px;
+}
+
+.nav-wrapper .center a
+ {
+  font-size: 1rem;
+  width: 100%;
+  text-align: left;
+  padding: 10px 0;
+  border-bottom: 1px solid #eee;
+}
+.nav-wrapper .right {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* align to left like nav links */
+  gap: 15px;
+  margin-top: 30px; /* space after nav links */
+  padding-top: 160px;
+  border-top: 1px solid #eee;
+}
+.moon-icon {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  width: 26px;
+  height: 26px;
+  z-index: 10001;
+}
+
+.contact {
+  padding: 10px 20px;
+  border-radius: 20px;
+  font-size: 14px;
+  text-align: center;
+  width: fit-content; /* ✅ shrink to content */
+  max-width: 100%;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+.contact:hover {
+  background-color: #000000;
+  color: rgb(255, 255, 255);
+}
+
   .center {
     flex-direction: column;
     gap: 10px;
@@ -381,14 +466,43 @@ section {
     display: inline-block;
   }
   .hamburger {
-    align-self: start;
     display: block;
+    font-size: 30px;
+    cursor: pointer;
+    margin: 0;
+    padding: 0;
     color: black;
   }  
-  .logo {
-    position: absolute; /* or 'fixed' if you want it relative to the viewport */
-    right: 0;
-    margin: 10px; /* Optional: Add some spacing from the edges */
+
+  .close-btn {
+    display: block;
+    font-size: 26px;
+    font-weight: bold;
+    position: absolute;
+    top: 18px;
+    right: 20px;
+    width: 26px;
+    height: 26px;
+    z-index: 10001;
+    cursor: pointer;
   }
+  
+  
+  .left {
+    width: auto;
+    display: flex;
+    justify-content: center;
+    flex: 1;
+    position: static; 
+  }
+  
+
+  .logo {
+    position: static;
+    margin: 10px 0;
+    display: block;
+    text-align: center;
+  }
+  
   
 }
