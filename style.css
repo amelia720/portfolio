@@ -1,13 +1,14 @@
-/* General styles */
+/* General styles */ 
 body {
   margin: 0;
-  font-family: sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   background: #fff;
 }
 
 html {
   scroll-behavior: smooth;
 }
+
 
 /* Header / Top Bar */
 .header {
@@ -261,13 +262,15 @@ section {
 {
   display: none;
 }
+.overlay {
+  display: none;
+}
+
+
 
 
 /* ---------------------- */
 /* Responsive Styles */
-/* ---------------------- */
-/* ---------------------- */
-/* Landscape Orientation Tweaks Only */
 /* ---------------------- */
 
 @media screen and (max-width: 768px) {
@@ -382,28 +385,54 @@ section {
 
 /* Hide nav-wrapper on mobile by default */
 .nav-wrapper {
-  display: none;
+  pointer-events: none;
   position: fixed;
   top: 0;
-  left: -100%;
-  width: 100%; 
-  max-width: 250px; 
+  left: 0;
+  transform: translateX(-100%);
+  opacity: 0;
+  transition: transform 0.6s ease, opacity 0.5s ease;
+  display: flex; /* Always display it for smoother transitions */
+  flex-direction: column;
+  width: 100%;
+  max-width: 250px;
   height: 100vh;
   background-color: white;
-  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
   z-index: 9999;
-  padding: 60px 20px 20px 20px; 
-  flex-direction: column;
+  padding: 60px 20px 20px 20px;
   gap: 25px;
-  transition: left 0.3s ease;
-  overflow-y: auto; 
+  overflow-y: auto;
 }
 
 
 .nav-wrapper.open {
+  pointer-events: auto;
   left: 0;
   display: flex;
+  opacity: 1;
+  transform: translateX(0%);
 }
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 9998;
+  transition: opacity 0.3s ease;
+}
+
+/* Only visible when nav is open */
+.nav-wrapper.open + .overlay {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+
 
 .nav-wrapper .center {
   flex-direction: column;

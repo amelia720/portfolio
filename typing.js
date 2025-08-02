@@ -45,14 +45,22 @@ typedText.textContent = currentPhrase.substring(0, charIndex); // update the tex
 
 const hamburger = document.querySelector('.hamburger');
 const navWrapper = document.querySelector('.nav-wrapper');
+const overlay = document.querySelector('.overlay');
+const closeBtn = document.querySelector('.close-btn');
 
 hamburger.addEventListener('click', () => {
-    navWrapper.classList.toggle('open');
-    document.body.style.overflow = navWrapper.classList.contains('open') ? 'hidden' : 'auto';
-  });
-  document.querySelector('.close-btn').addEventListener('click', () => {
-    document.querySelector('.nav-wrapper').classList.remove('open');
-  });  
+  navWrapper.classList.add('open');
+  document.body.style.overflow = 'hidden';
+});
+
+function closeMenu() {
+  navWrapper.classList.remove('open');
+  document.body.style.overflow = 'auto';
+}
+
+closeBtn.addEventListener('click', closeMenu);
+overlay.addEventListener('click', closeMenu);
+
 
 
 document.addEventListener("DOMContentLoaded", typeEffect); // start the typing effect when the DOM is fully loaded
