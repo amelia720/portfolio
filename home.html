@@ -65,13 +65,101 @@
           
         
     </section>
-    
-    <section id ="skills">
-        ..
-    </section>
-       ...
-    <section id ="projects">
+
+    <section id="skills">
+        <h1>My Skills</h1>
+        <img src="images/image2.png" alt="woman on laptop" class="skills-image">
         
+        <div class="skills-section">
+            <div class="skills-carousel">
+                <button class="arrow left">&#8592;</button>
+                <div class="skills-container">
+                    <div class="skill"><img src="images/html.png" alt="HTML"></div>
+                    <div class="skill"><img src="images/css.png" alt="CSS"></div>
+                    <div class="skill"><img src="images/js.png" alt="JS"></div>
+                    <div class="skill"><img src="images/php.png" alt="PHP"></div>
+                    <div class="skill"><img src="images/sql.png" alt="SQL"></div>
+                    <div class="skill"><img src="images/java.png" alt="Java"></div>
+                    <div class="skill"><img src="images/oop.png" alt="OOP"></div>
+                    <div class="skill"><img src="images/c.png" alt="C"></div>
+                    <div class="skill"><img src="images/asm.png" alt="ASM"></div>
+                    <div class="skill"><img src="images/git.png" alt="Github"></div>
+                    <div class="skill"><img src="images/vs.png" alt="VsCode"></div>
+                    <div class="skill"><img src="images/linux.png" alt="Linux"></div>
+                    <div class="skill"><img src="images/figma.png" alt="Figma"></div>
+                    <div class="skill"><img src="images/bash.png" alt="bash"></div>
+                </div>
+                <button class="arrow right">&#8594;</button>
+            </div>
+        </div>
+    </section>
+      
+
+    <section id ="projects">
+        <h1 class="projects-title">Projects</h1>
+        <p class="projects-subtitle">
+            Here is a list of projects I’ve been working on.<br />
+            Feel free to click on them to find out more.
+        </p>
+        
+        <!-- Segmented control -->
+        <div class="segmented" role="tablist" aria-label="Project filters">
+            <button class="seg is-active" role="tab" aria-selected="true" data-filter="proj">PROJECTS</button>
+            <button class="seg" role="tab" aria-selected="false" data-filter="cert">CERTIFICATES</button>
+        </div>
+         <!-- Cards grid (examples) -->
+        <div class="projects-grid">
+            <article class="card proj">
+                <h3>Portfolio Site</h3>
+                <p>Responsive portfolio site that you are now viewing! </p>
+                <p><strong>Tools:</strong> VsCode, Figma</p>
+                <p><strong>HTML, CSS, JS</strong></p>
+                <a href="#" class="card-link">View</a>
+            </article>
+
+            <article class="card proj">
+                <h3>Estate Flow</h3>
+                <p>Estate agency system (Group Project)</p>
+                <p><strong>Tools:</strong> VsCode</p>
+                <p><strong>HTML, CSS, JS, PHP</strong></p>
+                <a href="#" class="card-link">View</a>
+            </article>
+
+            <article class="card proj">
+                <h3>Small World</h3>
+                <p>Fast-paced endless runner built in 68k Assembly.</p>
+                <p><strong>Tools:</strong> Easy68k</p>
+                <p><strong>68k Assembly</strong></p>
+                <a href="#" class="card-link">View</a>
+            </article>
+            
+            <article class="card proj">
+                <h3>Shop Manager Pro </h3>
+                <p>Purchase management system with GUI, database integration, and OOP.</p>
+                <p><strong>Tools:</strong> VsCode, Swing, JDBC, MySQL (terminal)</p>
+                <p><strong>Java, SQL </strong></p>
+                <a href="#" class="card-link">View</a>
+            </article>
+
+            <article class="card proj">
+                <h3>Restaurant Delivery System</h3>
+                <p>System Analysis and Design (Group Project)</p>
+                <p><strong>Tools:</strong> LucidChart</p>
+                <p><strong>UML, System Design</strong></p>
+                <a href="#" class="card-link">View</a>
+            </article>
+
+            <!-- Certificates placeholder -->
+            <article class="card cert">
+                <h3>Certificates</h3>
+                <p>I’m currently working on obtaining professional certifications to further expand my skills and knowledge.</p>
+                <p>Check back soon to see updates!</p>
+            </article>
+  
+        </div>
+
+              
+        </div>
     </section>
 
     <script src="typing.js"></script>

@@ -62,5 +62,141 @@ closeBtn.addEventListener('click', closeMenu);
 overlay.addEventListener('click', closeMenu);
 
 
+  document.addEventListener('DOMContentLoaded', () => {
+    const mainCarousel = document.querySelector('.skills-carousel');
+    const mainContainer = mainCarousel.querySelector('.skills-container');
+    const mainLeftBtn = mainCarousel.querySelector('.arrow.left');
+    const mainRightBtn = mainCarousel.querySelector('.arrow.right');
+
+    // Clone all children for seamless scroll
+    const originalItems = Array.from(mainContainer.children);
+    originalItems.forEach(item => {
+      const clone = item.cloneNode(true);
+      clone.classList.add('clone');
+      mainContainer.appendChild(clone);
+    });
+
+    let scrollInterval;
+    let scrollSpeed = 1; // pixels per step
+
+    function startAutoScroll() {
+      scrollInterval = setInterval(() => {
+        mainContainer.scrollLeft += scrollSpeed;
+
+        const scrollWidth = mainContainer.scrollWidth;
+        const visibleWidth = mainContainer.clientWidth;
+
+        // When we scroll past the original content + some buffer, reset scroll
+        if (mainContainer.scrollLeft >= scrollWidth / 2) {
+          mainContainer.scrollLeft = 0;
+        }
+      }, 20);
+    }
+
+    function stopAutoScroll() {
+      clearInterval(scrollInterval);
+    }
+
+    // Arrow buttons (manual control)
+    mainLeftBtn.addEventListener('click', () => {
+      mainContainer.scrollBy({ left: -200, behavior: 'smooth' });
+    });
+
+    mainRightBtn.addEventListener('click', () => {
+      mainContainer.scrollBy({ left: 200, behavior: 'smooth' });
+    });
+
+    // Pause/resume on hover (entire carousel area including arrows)
+    mainCarousel.addEventListener('mouseenter', stopAutoScroll);
+    mainCarousel.addEventListener('mouseleave', startAutoScroll);
+
+    startAutoScroll();
+  });
+
+  // Handle the two smaller carousels (one item visible at a time)
+  // For each small carousel ("Tools" and "Other")
+
+  document.querySelectorAll('.widget-carousel').forEach((carousel) => {
+    const track = carousel.querySelector('.widget-track');
+    const widgets = track.children;
+    const dots = carousel.nextElementSibling.querySelectorAll('.dot');
+    let currentIndex = 0;
+    let autoplayInterval;
+
+    const scrollToIndex = (index) => {
+      const containerWidth = carousel.offsetWidth;
+      carousel.scrollTo({
+        left: containerWidth * index,
+        behavior: 'smooth'
+      });
+
+      dots.forEach(dot => dot.classList.remove('active'));
+      if (dots[index]) dots[index].classList.add('active');
+    };
+
+    const nextSlide = () => {
+      currentIndex = (currentIndex + 1) % widgets.length;
+      scrollToIndex(currentIndex);
+    };
+
+    const startAutoplay = () => {
+      autoplayInterval = setInterval(nextSlide, 5000); // change every 5s
+    };
+
+    const stopAutoplay = () => {
+      clearInterval(autoplayInterval);
+    };
+
+    // Start autoplay
+    startAutoplay();
+
+    // Pause autoplay on user interaction
+    carousel.addEventListener('touchstart', stopAutoplay);
+    carousel.addEventListener('mouseenter', stopAutoplay);
+
+    // Resume autoplay on end
+    carousel.addEventListener('touchend', startAutoplay);
+    carousel.addEventListener('mouseleave', startAutoplay);
+
+    // Sync dot when user scrolls manually
+    carousel.addEventListener('scroll', () => {
+      const index = Math.round(carousel.scrollLeft / carousel.offsetWidth);
+      currentIndex = index;
+      dots.forEach(dot => dot.classList.remove('active'));
+      if (dots[index]) dots[index].classList.add('active');
+    });
+  });
+  
+  (function () {
+    const buttons = document.querySelectorAll('#projects .segmented .seg');
+    const cards   = document.querySelectorAll('#projects .projects-grid .card');
+  
+    function setActive(btn) {
+      buttons.forEach(b => {
+        const active = b === btn;
+        b.classList.toggle('is-active', active);
+        b.setAttribute('aria-selected', String(active));
+      });
+    }
+  
+    function filterCards(category) {
+      cards.forEach(card => {
+        const matches = card.classList.contains(category);
+        card.classList.toggle('is-hidden', !matches);
+      });
+    }
+  
+    buttons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const category = btn.dataset.filter; 
+        setActive(btn);
+        filterCards(category);
+      });
+    });
+  
+    // Default view = projects
+    filterCards('proj');
+  })();
+  
 
 document.addEventListener("DOMContentLoaded", typeEffect); // start the typing effect when the DOM is fully loaded
