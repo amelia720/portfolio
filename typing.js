@@ -198,5 +198,68 @@ overlay.addEventListener('click', closeMenu);
     filterCards('proj');
   })();
   
+  document.querySelectorAll('a[href="#contact"]').forEach(link => {
+    link.addEventListener('click', function (e) {
+      e.preventDefault();
+      const target = document.querySelector('#contact');
+      window.scrollTo({
+        top: target.offsetTop, // exact top of section
+        behavior: 'smooth'
+      });
+    });
+  });
 
+  document.getElementById('contactForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+  
+    const statusEl = document.getElementById('formStatus');
+    statusEl.textContent = "Sending...";
+  
+    const formData = new FormData(e.target);
+  
+    try {
+      const res = await fetch("https://formspree.io/f/mdkdbdkn", { // replace with your endpoint
+        method: "POST",
+        body: formData,
+        headers: { 'Accept': 'application/json' }
+      });
+  
+      if (res.ok) {
+        statusEl.textContent = "Thanks! Your message has been sent.";
+        e.target.reset();
+      } else {
+        statusEl.textContent = "Oops! Something went wrong. Please try again.";
+      }
+    } catch (error) {
+      statusEl.textContent = "Network error. Please try later.";
+    }
+  });
+  
 document.addEventListener("DOMContentLoaded", typeEffect); // start the typing effect when the DOM is fully loaded
+
+document.addEventListener('DOMContentLoaded', () => {
+  const header = document.querySelector('.header');
+  const sections = document.querySelectorAll('section');
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const theme = entry.target.getAttribute('data-theme');
+
+        if (theme === 'dark') {
+          header.classList.remove('light-text');
+          header.classList.add('dark-text');
+        } else {
+          header.classList.remove('dark-text');
+          header.classList.add('light-text');
+        }
+      }
+    });
+  }, {
+    threshold: 0.90 // Trigger when 50% of the section is visible
+  });
+
+  sections.forEach(section => {
+    observer.observe(section);
+  });
+});

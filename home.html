@@ -26,8 +26,8 @@
             </nav>
           
             <div class="right"> <!-- right section -->
-              <img src="images/moon.png" alt="dark mode" class="moon-icon" />
-              <button class="contact">Contact</button>
+              <a href="#" class="moon-icon"></a>
+              <a href="#contact" class="contact">Contact</a>
             </div>
         </div>
         <div class="overlay"></div>
@@ -35,7 +35,7 @@
 
     
     <!-- home section -->
-    <section id ="home">
+    <section id ="home" data-theme="light">
         <div class="about">
             <div class="text-content">
                 <h3>Welcome to my Portfolio</h3>
@@ -66,7 +66,7 @@
         
     </section>
 
-    <section id="skills">
+    <section id="skills" data-theme="light">
         <h1>My Skills</h1>
         <img src="images/image2.png" alt="woman on laptop" class="skills-image">
         
@@ -95,7 +95,7 @@
     </section>
       
 
-    <section id ="projects">
+    <section id ="projects" data-theme="light">
         <h1 class="projects-title">Projects</h1>
         <p class="projects-subtitle">
             Here is a list of projects I’ve been working on.<br />
@@ -162,7 +162,7 @@
         </div>
     </section>
 
-    <section id="contact" class="contact-section reveal">
+    <section id="contact" data-theme="dark" class="contact-section reveal">
         <img src="images/image3.png" alt="" class="contact-img" />
       
         <div class="contact-content">
@@ -171,26 +171,23 @@
           <form class="contact-form" id="contactForm">
             <div class="row">
               <div class="field">
-                <label for="firstName">First Name</label>
-                <input id="firstName" name="firstName" type="text" required />
+                <input id="firstName" name="firstName" type="text" placeholder="First Name" required />
               </div>
               <div class="field">
-                <label for="lastName">Last Name</label>
-                <input id="lastName" name="lastName" type="text" required />
+                <input id="lastName" name="lastName" type="text" placeholder="Last Name" required />
               </div>
             </div>
       
             <div class="field">
-              <label for="email">Email Address</label>
-              <input id="email" name="email" type="email" required />
+              <input id="email" name="email" type="email" placeholder="Email Address"  required />
             </div>
       
             <div class="field">
-              <label for="message">Message</label>
-              <textarea id="message" name="message" rows="6" required></textarea>
+              <textarea id="message" name="message" rows="6" placeholder="Message" required></textarea>
             </div>
       
             <button type="submit" class="send-btn">Send</button>
+            <p id="formStatus" style="color: white; margin-top: 10px;"></p>
           </form>
         </div>
       </section>
