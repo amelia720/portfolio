@@ -90,6 +90,12 @@ html {
 .header.dark-text .moon-icon:hover { background-image: url(images/fullwhite.png); }
 
 /* Left logo */
+.logo-link {
+  text-decoration: none;
+  color: inherit; /* inherit color from header */
+  display: flex;
+  align-items: center;
+}
 .left .logo {
   font-size: 24px;
   font-weight: bold;
