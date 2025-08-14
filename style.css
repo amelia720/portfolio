@@ -1,7 +1,8 @@
 /* General styles */ 
 
 :root {
-  --header-h: 72px;          /* pick your real header height */
+  --header-h: 72px;         
+  --icon-shape: url("images/moon.svg"); /* default MOON */
 }
 body {
   margin: 0;
@@ -12,6 +13,10 @@ body {
 html {
   scroll-behavior: smooth;
   scroll-padding-top: var(--header-h);
+}
+/* when site mode is dark, show SUN */
+html[data-mode="dark"] {
+  --icon-shape: url("images/sun.svg");
 }
 
 /* Header / Top Bar */
@@ -73,7 +78,8 @@ html {
   color: black;
 }
 
-.moon-icon {
+/* renamed */
+.toggle {
   display: inline-block;
   width: 24px;
   height: 24px;
@@ -81,13 +87,17 @@ html {
   background: center/contain no-repeat;
 }
 
+/* --- MOON state (default, light mode) --- */
 /* LIGHT header */
-.header.light-text .moon-icon { background-image: url(images/moon.png); }
-.header.light-text .moon-icon:hover { background-image: url(images/fullmoon.png); }
-
+.header.light-text .toggle[data-icon="moon"]       { background-image: url(images/moon.png); }
+.header.light-text .toggle[data-icon="moon"]:hover { background-image: url(images/fullmoon.png); }
 /* DARK header */
-.header.dark-text .moon-icon { background-image: url(images/whitemoon.png); }
-.header.dark-text .moon-icon:hover { background-image: url(images/fullwhite.png); }
+.header.dark-text  .toggle[data-icon="moon"]       { background-image: url(images/whitemoon.png); }
+.header.dark-text  .toggle[data-icon="moon"]:hover { background-image: url(images/fullwhite.png); }
+
+/* --- SUN state (when dark mode is toggled ON) --- */
+html[data-mode="dark"] .toggle[data-icon="sun"]       { background-image: url(images/whitesun.png); }
+html[data-mode="dark"] .toggle[data-icon="sun"]:hover { background-image: url(images/whitesun-full.png); }
 
 /* Left logo */
 .logo-link {
@@ -152,6 +162,17 @@ html {
 section {
   min-height: auto;
   padding: 80px 120px 0px 120px;
+}
+
+/* reveal on scroll */
+.reveal { 
+  opacity: 0; 
+  transform: translateY(16px); 
+  transition: opacity 1.2s ease, transform .6s ease; 
+}
+.reveal.on { 
+  opacity: 1; 
+  transform: none; 
 }
 
 /* About section */
@@ -279,6 +300,7 @@ section {
 }
 
 .hamburger {
+  
   display: none;
   font-size: 30px;
   cursor: pointer;
@@ -562,9 +584,198 @@ section {
 .send-btn:hover { transform: translateY(-1px); color: #fff; background: #3a3636; }
 .send-btn:active { transform: translateY(0); box-shadow: none; }
 
+:root { --action-h: 40px; }  /* one knob for both controls */
+
+/* Row */
+.form-actions{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 16px;
+  width: fit-content;          /* hug contents so it visually groups */
+}
+
+/* Button */
+.send-btn{
+  -webkit-appearance: none;    /* Safari: neutralize default button metrics */
+  appearance: none;
+  height: var(--action-h);
+  line-height: 1;              /* prevents extra vertical padding feel */
+  padding: 0 18px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  color: #000;
+  background: #fff;
+  box-shadow: 0 6px 14px rgba(214,69,80,0.28);
+  transition: transform .15s ease, box-shadow .15s ease, background .15s ease, color .15s ease;
+}
+
+/* LinkedIn “button” — size the anchor, not the img */
+.ln{
+  position: relative;
+  top: 8px;
+  box-sizing: border-box;      /* include border in the size */
+  width: var(--action-h);
+  height: var(--action-h);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 4px solid #fff;
+  border-radius: 50%;
+  background: transparent;
+  transition: box-shadow .25s ease, transform .2s ease, background-color .25s ease;
+}
+
+/* keep the art smaller than the circle */
+.ln img{
+  width: 60%;
+  height: auto;
+  display: block;
+}
+
+/* Softer hover (less spread, lower alpha) */
+.ln:hover{
+  background-color: rgba(255,255,255,0.06);
+  box-shadow:
+
+    0 4px 10px rgba(255, 255, 255, 0.22),          /* blue glow */
+    0 1px 2px rgba(255, 255, 255, 0.15);                /* tiny lift */
+  transform: translateY(-1px);
+}
+
+/* Dark mode tweaks so contrast feels consistent */
+html[data-mode="dark"] .ln{
+  border-color:#fff;
+  box-shadow: none;
+}
+html[data-mode="dark"] .ln:hover{
+  box-shadow:
+    0 0 0 3px rgba(255,255,255,0.18),
+    0 4px 10px rgba(10,102,194,0.2),
+    0 1px 2px rgba(0,0,0,0.35);
+}
+
+
+
+
 #home, #skills, #projects, #contact {
   scroll-margin-top: 0; /* or remove entirely */
 }
+/* ===== Dark Mode ===== */
+html[data-mode="dark"] {
+  color-scheme: dark;
+}
+
+html[data-mode="dark"] body {
+  background: #2b2d33;        
+  color: #f7f8fa;             
+}
+
+/* Header */
+html[data-mode="dark"] .header {
+  background-color: rgba(54, 57, 63, 0.132);
+  border-bottom-color: rgba(255, 255, 255, 0.06);
+}
+
+/* Navbar TEXT only — force white in dark mode */
+html[data-mode="dark"] .header .center a,
+html[data-mode="dark"] .header .contact,
+html[data-mode="dark"] .header .logo-link {
+  color: #ffffff !important;
+  border-color: #ffffff !important; /* for the Contact button outline */
+}
+
+/* Keep your hover contrast on the Contact button */
+html[data-mode="dark"] .header .contact:hover {
+  background: #ffffff;
+  color: #111 !important;
+}
+
+
+/* Contact button in header */
+html[data-mode="dark"] .contact {
+  background: transparent;
+  color: #f7f8fa;
+  border-color: #f7f8fa;
+}
+html[data-mode="dark"] .contact:hover {
+  background: #f7f8fa;
+  color: #2b2d33;
+}
+
+/* About section text */
+html[data-mode="dark"] .about { color: #e6e8eb; }
+html[data-mode="dark"] .about h3 { color: #e6e8eb; }
+html[data-mode="dark"] .greeting { color: #f0f1f3; }
+
+/* Skills section */
+html[data-mode="dark"] .skills-section {
+  background-color: #3a3d44;
+  box-shadow: 0 0 0 1px rgba(255,255,255,0.03), 0 8px 18px rgba(0,0,0,0.35);
+}
+
+/* Skill circles  */
+html[data-mode="dark"] .skill {
+  background: #f7f8fa;      /* very light background so icons pop */
+  border-color: rgba(0,0,0,0.15);
+}
+html[data-mode="dark"] .skill img {
+  filter: none; /* keep original colors vivid */
+}
+
+/* Projects section */
+html[data-mode="dark"] #projects {
+  background: #3a3d44;
+  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.492);
+}
+html[data-mode="dark"] .projects-subtitle { color: #e6e8eb; }
+
+html[data-mode="dark"] .card {
+  background: #33363e;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0), 0 8px 20px rgba(0,0,0,0.35);
+}
+html[data-mode="dark"] .card p { color: #dddfe4; }
+html[data-mode="dark"] .card-link { color: #fc8a6b; }
+
+/* Segmented control - projects/certs option */
+html[data-mode="dark"] .segmented {
+  background: #33363e;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.04);
+}
+html[data-mode="dark"] .seg { color: #f7f8fa; }
+html[data-mode="dark"] .seg.is-active {
+  color: #2b2d33;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+}
+
+/* Contact section */
+html[data-mode="dark"] .contact-section {
+  background: linear-gradient(135deg, #eb8c54 0%, #cb4e5d 100%);
+}
+html[data-mode="dark"] .contact-form input,
+html[data-mode="dark"] .contact-form textarea {
+  background-color: rgba(255,255,255,0.2);
+  border-color: rgba(255,255,255,0.8);
+  color: #fff;
+}
+html[data-mode="dark"] .send-btn {
+  background: #f7f8fa;
+  color: #2b2d33;
+}
+html[data-mode="dark"] .send-btn:hover {
+  background: #4a4e57;
+  color: #fff;
+}
+
+
+
+
 
 /* ---------------------- */
 /* Responsive Styles */
@@ -582,7 +793,7 @@ section {
   *, *::before, *::after { box-sizing: inherit; }
 
   section {
-    padding: 80px 5%;
+    padding: 40px 5%;
     max-width: 100%;
     box-sizing: border-box;
   }  
@@ -615,8 +826,9 @@ section {
     flex-direction: column;
     align-items: center;
     gap: 30px;
-    padding: 20px 0px;
+    padding: 10px 0px;
     text-align: center;
+    margin-bottom: 5px;
   }
   .about .text-content {
     font-size: 1.05rem;
@@ -712,13 +924,14 @@ section {
     pointer-events: auto;
   }
 
+
   .nav-wrapper .center { flex-direction: column; gap: 20px; }
   .nav-wrapper .center a {
     font-size: 1rem;
     width: 100%;
     text-align: left;
     padding: 10px 0;
-    border-bottom: 1px solid #eee;
+    border-bottom: none;
   }
   .nav-wrapper .right {
     width: 100%;
@@ -730,7 +943,8 @@ section {
     padding-top: 160px;
     border-top: 1px solid #eee;
   }
-  .moon-icon {
+
+  .toggle {
     position: absolute;
     top: 20px;
     left: 20px;
@@ -738,6 +952,7 @@ section {
     height: 26px;
     z-index: 10001;
   }
+  
   .contact {
     padding: 10px 20px;
     border-radius: 20px;
@@ -755,14 +970,14 @@ section {
 
   .center { flex-direction: column; gap: 10px; }
   .right { flex-direction: column; gap: 10px; }
-  .moon-icon, .contact { display: inline-block; }
+  .toggle, .contact { display: inline-block; }
+
   .hamburger {
     display: block;
     font-size: 30px;
     cursor: pointer;
     margin: 0;
     padding: 0;
-    color: black;
   }
   .close-btn {
     display: block;
@@ -789,4 +1004,151 @@ section {
     display: block;
     text-align: center;
   }
+
+  #skills { 
+    margin-bottom: 24px;                 /* shrink extra space */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  /* Make the card sit above everything */
+  .skills-section {
+    order: 1;                             /* show first */
+    width: 100%;
+    padding: 24px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .skills-image { display: none; }
+
+  #projects {
+    /* kill desktop margins that cause horizontal overflow */
+    margin: 32px 12px;
+    padding: 20px 14px;
+    min-height: auto;
+    border-radius: 16px;
+    box-shadow: 0 14px 28px rgba(0,0,0,0.15);
+  }
+
+  .projects-title {
+    /* keep the title on one line and scale sanely */
+    font-size: clamp(1.8rem, 7vw, 2.4rem);
+    margin: 0 0 8px;
+    white-space: nowrap;
+  }
+
+  .projects-subtitle {
+    max-width: none;
+    font-size: 1rem;
+    padding: 0 2px;
+    margin-bottom: 18px;
+  }
+
+  /* segmented control: fit or allow horizontal scroll */
+  .segmented {
+    width: 100%;
+    justify-content: center;
+    gap: 6px;
+    overflow-x: auto;      /* prevents overflow cut-off */
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .segmented { width: 100%; flex-wrap: wrap; overflow: visible; }
+.seg { flex: 1 1 auto; text-align: center; }
+
+
+  /* one-column cards and tighter spacing */
+  .projects-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+    max-width: 100%;
+  }
+  .card { padding: 16px; }
+  .contact-section {
+    /* override the desktop grid */
+    display: flex !important;
+    flex-direction: column;          /* stack vertically */
+    gap: 18px;
+    padding: 24px 16px;
+    border-radius: 16px;
+    padding-bottom: calc(24px + env(safe-area-inset-bottom));
+  }
+
+  /* Form first */
+  .contact-content {
+    margin-top: 20px;
+    padding: 20px 5%;
+    order: 1;
+    width: 100%;
+    align-items: stretch;
+  }
+
+  /* Illustration second (underneath) */
+  .contact-img {
+    order: 2;
+    align-self: center;
+    width: 100%;
+    max-width: 70%;
+    margin: 8px auto 0;
+    pointer-events: none;            /* don't block taps */
+  }
+
+  /* Single-column inputs on small screens */
+  .contact-form .row { grid-template-columns: 1fr; }
+  .send-btn { width: 150px; padding: 14px 18px; font-size: 16px; }
+
+
+
+  /* drawer colors in dark mode */
+  html[data-mode="dark"] .nav-wrapper {
+    background-color: #2b2d33;                     /* dark panel */
+    color: #fff;
+    border-right: 1px solid rgba(255,255,255,.08);
+  }
+  html[data-mode="dark"] .nav-wrapper .center a {
+    color: #fff;
+    border-bottom-color: rgba(255,255,255,.12);
+  }
+  html[data-mode="dark"] .nav-wrapper .center a:hover {
+    opacity: .9;
+  }
+  html[data-mode="dark"] .close-btn { color: #fff; }
+
+  /* “Contact” pill inside drawer */
+  html[data-mode="dark"] .nav-wrapper .contact {
+    background: transparent;
+    color: #fff;
+    border: 1px solid #fff;
+  }
+  html[data-mode="dark"] .nav-wrapper .contact:hover {
+    background: #fff; color: #2b2d33;
+  }
+
+  /* darker page overlay in dark mode */
+  html[data-mode="dark"] .overlay {
+    background-color: rgba(0,0,0,.6);
+  }
+
+  /* Light mode → moon */
+  html[data-mode="light"] .toggle[data-icon="moon"] {
+    background-image: url(images/moon.png) !important;
+  }
+  html[data-mode="light"] .toggle[data-icon="moon"]:hover {
+    background-image: url(images/fullmoon.png) !important;
+  }
+
+  /* Dark mode → sun */
+  html[data-mode="dark"] .toggle[data-icon="sun"] {
+    background-image: url(images/whitesun.png) !important;
+  }
+  html[data-mode="dark"] .toggle[data-icon="sun"]:hover {
+    background-image: url(images/whitesun-full.png) !important;
+  }
+  /* Hamburger color by site mode (not by header text color) */
+  .hamburger { color: inherit !important; }
+  html[data-mode="dark"]  .hamburger { color: #fff !important; }
+  html[data-mode="light"] .hamburger { color: #000 !important; }
+
 }

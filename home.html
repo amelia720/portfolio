@@ -15,9 +15,7 @@
         <div class="hamburger">&#9776;</div> <!-- this is the ☰ symbol -->
         <div class = "left"> <!-- left section -->
             <a href="#home" class ="logo-link">
-                <span class="logo">Amelia
-                    <span class="dot">.</span>
-                </span>
+                <span class="logo">Amelia<span class="dot">.</span></span>
             </a>
         </div>
 
@@ -30,8 +28,8 @@
             </nav>
           
             <div class="right"> <!-- right section -->
-              <a href="#" class="moon-icon"></a>
-              <a href="#contact" class="contact">Contact</a>
+                <a href="#" class="toggle" data-icon="moon" aria-label="Toggle dark mode"></a>
+                <a href="#contact" class="contact">Contact</a>
             </div>
         </div>
         <div class="overlay"></div>
@@ -39,7 +37,7 @@
 
     
     <!-- home section -->
-    <section id ="home" data-theme="light">
+    <section id ="home" class="reveal" data-theme="light">
         <div class="about">
             <div class="text-content">
                 <h3>Welcome to my Portfolio</h3>
@@ -70,7 +68,7 @@
         
     </section>
 
-    <section id="skills" data-theme="light">
+    <section id="skills" class="reveal" data-theme="light">
         <h1>My Skills</h1>
         <img src="images/image2.png" alt="woman on laptop" class="skills-image">
         
@@ -99,7 +97,7 @@
     </section>
       
 
-    <section id ="projects" data-theme="light">
+    <section id ="projects" class="reveal" data-theme="light">
         <h1 class="projects-title">Projects</h1>
         <p class="projects-subtitle">
             Here is a list of projects I’ve been working on.<br />
@@ -190,7 +188,14 @@
               <textarea id="message" name="message" rows="6" placeholder="Message" required></textarea>
             </div>
       
-            <button type="submit" class="send-btn">Send</button>
+            <div class="form-actions">
+                <button type="submit" class="send-btn">Send</button>
+                <a href="https://www.linkedin.com/in/ameliahamulewicz" target="_blank" rel="noopener" class="ln">
+                  <img src="images/ln.png" alt="LinkedIn" />
+                </a>
+            </div>
+              
+              
             <p id="formStatus" style="color: white; margin-top: 10px;"></p>
           </form>
         </div>

@@ -19,26 +19,65 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   typeEffect();
 
+    // --- THEME TOGGLE (click moon -> dark mode with white sun; click sun -> light mode with moon) ---
+    const toggleBtn = document.querySelector('.toggle');
+
+    function setMode(mode /* 'light' | 'dark' */) {
+      document.documentElement.dataset.mode = mode;
+      if (toggleBtn) {
+        toggleBtn.dataset.icon = (mode === 'dark') ? 'sun' : 'moon';
+      }
+      // optional: remember choice
+      localStorage.setItem('site-mode', mode);
+    }
+  
+    // start in LIGHT mode (as requested) unless a saved choice exists
+    const saved = localStorage.getItem('site-mode');
+    const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    setMode(saved ? saved : (systemPrefersDark ? 'dark' : 'light'));
+  
+    toggleBtn && toggleBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const next = (document.documentElement.dataset.mode === 'dark') ? 'light' : 'dark';
+      setMode(next);
+    });
+  
+
+  // simplest reveal-on-scroll
+  const io = new IntersectionObserver((entries, obs) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('on');
+        obs.unobserve(e.target); // reveal once
+      }
+    });
+  }, { threshold: 0.25 });
+
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+
   // mobile nav
   const hamburger = document.querySelector('.hamburger');
   const navWrapper = document.querySelector('.nav-wrapper');
   const overlay = document.querySelector('.overlay');
   const closeBtn = document.querySelector('.close-btn');
 
+  
   function openMenu() {
     if (!navWrapper) return;
     navWrapper.classList.add('open');
-    document.body.style.overflow = 'hidden';
   }
   function closeMenu() {
     if (!navWrapper) return;
     navWrapper.classList.remove('open');
-    document.body.style.overflow = 'auto';
   }
 
   hamburger && hamburger.addEventListener('click', openMenu);
   closeBtn && closeBtn.addEventListener('click', closeMenu);
   overlay && overlay.addEventListener('click', closeMenu);
+
+  // Always start at the top on reload/return
+ 
 
   // main skills carousel (infinite scroll)
   const mainCarousel = document.querySelector('.skills-carousel');
@@ -218,4 +257,14 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     sections.forEach(section => observer.observe(section));
   }
+
+  // --- simple reset so page never comes back "stuck" ---
+  const hardReset = () => {
+    document.querySelector('.nav-wrapper')?.classList.remove('open'); // close drawer
+    document.body.style.overflow = '';                                 // unlock scroll
+  };
+  hardReset();
+  window.addEventListener('pageshow', hardReset);
+
+
 });
