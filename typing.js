@@ -1,137 +1,106 @@
-const typedText = document.getElementById("typed-text"); // declare the variable to hold the element from the HTML
+document.addEventListener('DOMContentLoaded', () => {
+  // typing effect
+  const typedText = document.getElementById('typed-text');
+  const phrases = ["Software Developer", "Web Developer", "UI/UX Designer", "Student"];
+  let phraseIndex = 0, charIndex = 0, isDeleting = false;
 
-const phrases = [
-  "Software Developer",
-  "Web Developer",
-  "UI/UX Designer",
-  "Student"
-];
+  function typeEffect() {
+    if (!typedText) return;
+    const current = phrases[phraseIndex];
 
-let phraseIndex = 0;
-let charIndex = 0;
-let isDeleting = false; // flag to check if we are deleting characters or typing new ones
+    charIndex += isDeleting ? -1 : 1;
+    typedText.textContent = current.substring(0, charIndex);
 
-function typeEffect() 
-{
-  const currentPhrase = phrases[phraseIndex];
-  
-  if (isDeleting) 
- {
-    charIndex--;
-  } 
-  else 
-  {
-    charIndex++;
+    let delay = isDeleting ? 50 : 100;
+    if (!isDeleting && charIndex === current.length) { delay = 2000; isDeleting = true; }
+    else if (isDeleting && charIndex === 0) { isDeleting = false; phraseIndex = (phraseIndex + 1) % phrases.length; delay = 500; }
+
+    setTimeout(typeEffect, delay);
+  }
+  typeEffect();
+
+  // mobile nav
+  const hamburger = document.querySelector('.hamburger');
+  const navWrapper = document.querySelector('.nav-wrapper');
+  const overlay = document.querySelector('.overlay');
+  const closeBtn = document.querySelector('.close-btn');
+
+  function openMenu() {
+    if (!navWrapper) return;
+    navWrapper.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeMenu() {
+    if (!navWrapper) return;
+    navWrapper.classList.remove('open');
+    document.body.style.overflow = 'auto';
   }
 
-typedText.textContent = currentPhrase.substring(0, charIndex); // update the text content of the element
+  hamburger && hamburger.addEventListener('click', openMenu);
+  closeBtn && closeBtn.addEventListener('click', closeMenu);
+  overlay && overlay.addEventListener('click', closeMenu);
 
-  let delay = isDeleting ? 50 : 100; // typing speed.. the question mark is used for getting the value of the variable.. 
-
-  if (!isDeleting && charIndex === currentPhrase.length) // if the current phrase is fully typed
-  {
-    delay = 2000; // pause at end
-    isDeleting = true;
-  } 
-  else if (isDeleting && charIndex === 0) // if we have deleted all characters of the current phrase
-  {
-    isDeleting = false;
-    phraseIndex = (phraseIndex + 1) % phrases.length; // move to the next phrase.. modulus operator ensures we loop back to the first phrase
-    delay = 500; // pause before typing new word
-  }
-
-  setTimeout(typeEffect, delay); // call the function again after the delay
-}
-
-const hamburger = document.querySelector('.hamburger');
-const navWrapper = document.querySelector('.nav-wrapper');
-const overlay = document.querySelector('.overlay');
-const closeBtn = document.querySelector('.close-btn');
-
-hamburger.addEventListener('click', () => {
-  navWrapper.classList.add('open');
-  document.body.style.overflow = 'hidden';
-});
-
-function closeMenu() {
-  navWrapper.classList.remove('open');
-  document.body.style.overflow = 'auto';
-}
-
-closeBtn.addEventListener('click', closeMenu);
-overlay.addEventListener('click', closeMenu);
-
-
-  document.addEventListener('DOMContentLoaded', () => {
-    const mainCarousel = document.querySelector('.skills-carousel');
+  // main skills carousel (infinite scroll)
+  const mainCarousel = document.querySelector('.skills-carousel');
+  if (mainCarousel) {
     const mainContainer = mainCarousel.querySelector('.skills-container');
     const mainLeftBtn = mainCarousel.querySelector('.arrow.left');
     const mainRightBtn = mainCarousel.querySelector('.arrow.right');
 
-    // Clone all children for seamless scroll
-    const originalItems = Array.from(mainContainer.children);
-    originalItems.forEach(item => {
-      const clone = item.cloneNode(true);
-      clone.classList.add('clone');
-      mainContainer.appendChild(clone);
-    });
+    if (mainContainer) {
+      const originals = Array.from(mainContainer.children);
+      originals.forEach(item => {
+        const clone = item.cloneNode(true);
+        clone.classList.add('clone');
+        mainContainer.appendChild(clone);
+      });
 
-    let scrollInterval;
-    let scrollSpeed = 1; // pixels per step
+      let scrollInterval;
+      const scrollSpeed = 1;
 
-    function startAutoScroll() {
-      scrollInterval = setInterval(() => {
-        mainContainer.scrollLeft += scrollSpeed;
+      function startAutoScroll() {
+        stopAutoScroll();
+        scrollInterval = setInterval(() => {
+          mainContainer.scrollLeft += scrollSpeed;
+          if (mainContainer.scrollLeft >= mainContainer.scrollWidth / 2) {
+            mainContainer.scrollLeft = 0;
+          }
+        }, 20);
+      }
+      function stopAutoScroll() {
+        if (scrollInterval) clearInterval(scrollInterval);
+      }
 
-        const scrollWidth = mainContainer.scrollWidth;
-        const visibleWidth = mainContainer.clientWidth;
+      mainLeftBtn && mainLeftBtn.addEventListener('click', () => {
+        mainContainer.scrollBy({ left: -200, behavior: 'smooth' });
+      });
+      mainRightBtn && mainRightBtn.addEventListener('click', () => {
+        mainContainer.scrollBy({ left: 200, behavior: 'smooth' });
+      });
 
-        // When we scroll past the original content + some buffer, reset scroll
-        if (mainContainer.scrollLeft >= scrollWidth / 2) {
-          mainContainer.scrollLeft = 0;
-        }
-      }, 20);
+      mainCarousel.addEventListener('mouseenter', stopAutoScroll);
+      mainCarousel.addEventListener('mouseleave', startAutoScroll);
+
+      startAutoScroll();
     }
+  }
 
-    function stopAutoScroll() {
-      clearInterval(scrollInterval);
-    }
-
-    // Arrow buttons (manual control)
-    mainLeftBtn.addEventListener('click', () => {
-      mainContainer.scrollBy({ left: -200, behavior: 'smooth' });
-    });
-
-    mainRightBtn.addEventListener('click', () => {
-      mainContainer.scrollBy({ left: 200, behavior: 'smooth' });
-    });
-
-    // Pause/resume on hover (entire carousel area including arrows)
-    mainCarousel.addEventListener('mouseenter', stopAutoScroll);
-    mainCarousel.addEventListener('mouseleave', startAutoScroll);
-
-    startAutoScroll();
-  });
-
-  // Handle the two smaller carousels (one item visible at a time)
-  // For each small carousel ("Tools" and "Other")
-
+  // smaller widget carousels (one item per view)
   document.querySelectorAll('.widget-carousel').forEach((carousel) => {
     const track = carousel.querySelector('.widget-track');
+    const dotsWrap = carousel.nextElementSibling;
+    const dots = dotsWrap ? dotsWrap.querySelectorAll('.dot') : [];
+    if (!track) return;
+
     const widgets = track.children;
-    const dots = carousel.nextElementSibling.querySelectorAll('.dot');
     let currentIndex = 0;
     let autoplayInterval;
 
-    const scrollToIndex = (index) => {
-      const containerWidth = carousel.offsetWidth;
-      carousel.scrollTo({
-        left: containerWidth * index,
-        behavior: 'smooth'
-      });
-
-      dots.forEach(dot => dot.classList.remove('active'));
-      if (dots[index]) dots[index].classList.add('active');
+    const scrollToIndex = (i) => {
+      const w = carousel.offsetWidth;
+      carousel.scrollTo({ left: w * i, behavior: 'smooth' });
+      dots.forEach(d => d.classList.remove('active'));
+      if (dots[i]) dots[i].classList.add('active');
     };
 
     const nextSlide = () => {
@@ -140,37 +109,32 @@ overlay.addEventListener('click', closeMenu);
     };
 
     const startAutoplay = () => {
-      autoplayInterval = setInterval(nextSlide, 5000); // change every 5s
+      stopAutoplay();
+      autoplayInterval = setInterval(nextSlide, 5000);
     };
-
     const stopAutoplay = () => {
-      clearInterval(autoplayInterval);
+      if (autoplayInterval) clearInterval(autoplayInterval);
     };
 
-    // Start autoplay
     startAutoplay();
-
-    // Pause autoplay on user interaction
     carousel.addEventListener('touchstart', stopAutoplay);
     carousel.addEventListener('mouseenter', stopAutoplay);
-
-    // Resume autoplay on end
     carousel.addEventListener('touchend', startAutoplay);
     carousel.addEventListener('mouseleave', startAutoplay);
 
-    // Sync dot when user scrolls manually
     carousel.addEventListener('scroll', () => {
-      const index = Math.round(carousel.scrollLeft / carousel.offsetWidth);
-      currentIndex = index;
-      dots.forEach(dot => dot.classList.remove('active'));
-      if (dots[index]) dots[index].classList.add('active');
+      const idx = Math.round(carousel.scrollLeft / carousel.offsetWidth);
+      currentIndex = idx;
+      dots.forEach(d => d.classList.remove('active'));
+      if (dots[idx]) dots[idx].classList.add('active');
     });
   });
-  
+
+  // projects segmented filter
   (function () {
     const buttons = document.querySelectorAll('#projects .segmented .seg');
     const cards   = document.querySelectorAll('#projects .projects-grid .card');
-  
+
     function setActive(btn) {
       buttons.forEach(b => {
         const active = b === btn;
@@ -178,74 +142,69 @@ overlay.addEventListener('click', closeMenu);
         b.setAttribute('aria-selected', String(active));
       });
     }
-  
     function filterCards(category) {
       cards.forEach(card => {
         const matches = card.classList.contains(category);
         card.classList.toggle('is-hidden', !matches);
       });
     }
-  
+
     buttons.forEach(btn => {
       btn.addEventListener('click', () => {
-        const category = btn.dataset.filter; 
+        const category = btn.dataset.filter;
         setActive(btn);
         filterCards(category);
       });
     });
-  
-    // Default view = projects
-    filterCards('proj');
+
+    filterCards('proj'); // default
   })();
-  
+
+  // smooth scroll to contact
   document.querySelectorAll('a[href="#contact"]').forEach(link => {
-    link.addEventListener('click', function (e) {
+    link.addEventListener('click', (e) => {
       e.preventDefault();
       const target = document.querySelector('#contact');
-      window.scrollTo({
-        top: target.offsetTop, // exact top of section
-        behavior: 'smooth'
-      });
+      if (!target) return;
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
   });
 
-  document.getElementById('contactForm').addEventListener('submit', async (e) => {
-    e.preventDefault();
-  
-    const statusEl = document.getElementById('formStatus');
-    statusEl.textContent = "Sending...";
-  
-    const formData = new FormData(e.target);
-  
-    try {
-      const res = await fetch("https://formspree.io/f/mdkdbdkn", { // replace with your endpoint
-        method: "POST",
-        body: formData,
-        headers: { 'Accept': 'application/json' }
-      });
-  
-      if (res.ok) {
-        statusEl.textContent = "Thanks! Your message has been sent.";
-        e.target.reset();
-      } else {
-        statusEl.textContent = "Oops! Something went wrong. Please try again.";
-      }
-    } catch (error) {
-      statusEl.textContent = "Network error. Please try later.";
-    }
-  });
-  
-document.addEventListener("DOMContentLoaded", typeEffect); // start the typing effect when the DOM is fully loaded
+  // contact form submit
+  const form = document.getElementById('contactForm');
+  if (form) {
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const statusEl = document.getElementById('formStatus');
+      if (statusEl) statusEl.textContent = "Sending...";
 
-document.addEventListener('DOMContentLoaded', () => {
+      const formData = new FormData(e.target);
+      try {
+        const res = await fetch("https://formspree.io/f/mdkdbdkn", {
+          method: "POST",
+          body: formData,
+          headers: { 'Accept': 'application/json' }
+        });
+        if (res.ok) {
+          statusEl && (statusEl.textContent = "Thanks! Your message has been sent.");
+          e.target.reset();
+        } else {
+          statusEl && (statusEl.textContent = "Oops! Something went wrong. Please try again.");
+        }
+      } catch {
+        statusEl && (statusEl.textContent = "Network error. Please try later.");
+      }
+    });
+  }
+
+  // header theme switching from section data-theme
   const header = document.querySelector('.header');
   const sections = document.querySelectorAll('section');
-
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
+  if (header && sections.length) {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
         const theme = entry.target.getAttribute('data-theme');
-
         if (theme === 'dark') {
           header.classList.remove('light-text');
           header.classList.add('dark-text');
@@ -253,13 +212,10 @@ document.addEventListener('DOMContentLoaded', () => {
           header.classList.remove('dark-text');
           header.classList.add('light-text');
         }
-      }
+      });
+    }, {
+      threshold: 0.9
     });
-  }, {
-    threshold: 0.90 // Trigger when 50% of the section is visible
-  });
-
-  sections.forEach(section => {
-    observer.observe(section);
-  });
+    sections.forEach(section => observer.observe(section));
+  }
 });
