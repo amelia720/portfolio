@@ -460,10 +460,21 @@ section {
   text-align: left;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
   transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+
+  display: flex;
+  flex-direction: column;                           
 }
 .card h3 { margin: 0 0 6px; }
 .card p { margin: 0 0 14px; color: #555; }
-.card-link { text-decoration: none; font-weight: 600; color: #D64550; }
+.card-link { 
+  text-decoration: none; 
+  font-weight: 600; 
+  color: #D64550;             
+  display: inline-block;
+
+  margin-top: auto;         /* push link to the bottom */
+}
+
 .card:hover {
   transform: translateY(-3px);
   box-shadow: 0 14px 30px rgba(0, 0, 0, 0.256);
