@@ -266,5 +266,6 @@ document.addEventListener('DOMContentLoaded', () => {
   hardReset();
   window.addEventListener('pageshow', hardReset);
 
-
 });
+
+
